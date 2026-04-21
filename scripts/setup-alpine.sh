@@ -13,7 +13,7 @@ apk add --no-cache alpine-base
 apk add --no-cache util-linux
 apk add --no-cache nano
 apk add --no-cache vim
-apk add --no-cache tzdate
+apk add --no-cache tzdata
 apk add --no-cache ca-certificates
 update-ca-certificates
 # Basic services
@@ -27,6 +27,7 @@ apk add --no-cache wpa_supplicant
 apk add --no-cache wireless-tools
 apk add --no-cache iw
 rc-update add networking default
+rc-update add wpa_supplicant default
 
 # enable ssh server
 apk add --no-cache openssh
@@ -35,6 +36,7 @@ sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd
 sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config || true
 
 # enable X11 minimal
+apk add --no-cache xterm
 apk add --no-cache \
     xorg-server \
     xinit \
