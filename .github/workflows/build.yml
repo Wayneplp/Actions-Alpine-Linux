@@ -100,7 +100,7 @@ jobs:
 
     strategy:
       matrix:
-        CPU: [rk3328, rk3528, rk3399, rk3566, rk3568, rk3576, rk3588]
+        CPU: [rk3588]
     steps:
     - name: Checkout
       uses: actions/checkout@main
