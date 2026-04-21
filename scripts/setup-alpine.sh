@@ -7,21 +7,50 @@ export LC_MESSAGES="C"
 export LC_ALL="C"
 
 apk update
+# Base system
 apk add --no-cache openrc bash
 apk add --no-cache alpine-base
 apk add --no-cache util-linux
+apk add --no-cache nano
+apk add --no-cache vim
+apk add --no-cache tzdate
+apk add --no-cache ca-certificates
+update-ca-certificates
+# Basic services
 rc-update add bootmisc boot
 rc-update add syslog default
 rc-update add crond default
 
 # enable networking
 apk add --no-cache dhcpcd
+apk add --no-cache wpa_supplicant
+apk add --no-cache wireless-tools
+apk add --no-cache iw
 rc-update add networking default
 
 # enable ssh server
 apk add --no-cache openssh
 rc-update add sshd default
 sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config || true
+
+# enable X11 minimal
+apk add --no-cache \
+    xorg-server \
+    xinit \
+    xrandr \
+    xset \
+    xf86-input-libinput \
+    mesa-dri-gallium \
+    mesa-egl \
+    mesa-gl \
+    dbus \
+    eudev
+
+# Python minimal
+apk add --no-cache \
+    python3 \
+    py3-pip
 
 # enable serial console
 echo "ttyFIQ0::respawn:/sbin/agetty -L 1500000 ttyFIQ0 vt100" >> /etc/inittab
